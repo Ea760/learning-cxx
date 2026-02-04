@@ -4,10 +4,16 @@
 // THINk: 这个函数是一个纯函数（pure function）吗？
 // READ: 纯函数 <https://zh.wikipedia.org/wiki/%E7%BA%AF%E5%87%BD%E6%95%B0>
 static unsigned long long fibonacci(int i) {
-    // TODO: 为缓存设置正确的初始值
-    static unsigned long long cache[96], cached;
-    // TODO: 设置正确的循环条件
-    for (; false; ++cached) {
+    static unsigned long long cache[96];
+    static int cached = 0; // 0 表示还没初始化
+
+    if (cached == 0) {
+        cache[0] = 0;
+        cache[1] = 1;
+        cached = 2; // 下一次从 2 开始补
+    }
+
+    for (; cached <= i; ++cached) {
         cache[cached] = cache[cached - 1] + cache[cached - 2];
     }
     return cache[i];
